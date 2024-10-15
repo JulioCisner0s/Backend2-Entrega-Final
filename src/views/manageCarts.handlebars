@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="/css/cartsStyle.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<h1>Gestión de Carrito</h1>
+
+    <!--
+    <button id="createCartButton" class="create-cart-btn">Crear Nuevo Carrito</button>
+    -->
+    <div class="carts-container">
+            <div class="cart-card">
+                <h2>Carrito #{{cart._id}}</h2>
+                <button class="btn" onclick="window.location.href='/carts/{{cart._id}}'">Ver Carrito</button>
+            </div>
+    </div>
+
+<script src="/js/cartScript.js"></script>

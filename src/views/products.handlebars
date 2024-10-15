@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styleProduct.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="path/to/js-cookie.js"></script>
+    <title>Lista de Productos</title>
+</head>
+<body>
+    <header>
+        <h1>Lista de Productos</h1>
+    </header>
+
+<form method="GET" action="/products" class="form-inline">
+    <label for="limit">Limit:</label>
+    <input type="number" id="limit" name="limit" value="{{limit}}" min="1" max="100">
+
+    <label for="page">Page:</label>
+    <input type="number" id="page" name="page" value="{{currentPage}}" min="1" required>
+
+    <label for="query">Search:</label>
+    <input type="text" id="query" name="query" value="{{query}}">
+
+    <label for="sort">Sort:</label>
+    <select id="sort" name="sort">
+        <option value="">None</option>
+        <option value="asc" {{#if (eq sort "asc")}}selected{{/if}}>Por precio mas bajo</option>
+        <option value="desc" {{#if (eq sort "desc")}}selected{{/if}}>Por precio mas alto</option>
+    </select>
+
+    <button type="submit">Apply Filters</button>
+</form>
+
+<div class="container">
+        {{#each products}}
+        <div class="product">
+            <img src="{{this.thumbnails}}" alt="{{this.title}}">
+            <div>
+                <h2>{{this.title}}</h2>
+                <p>{{this.description}}</p>
+                <p>Codigo: {{this.code}}</p>
+                <p>Price: ${{this.price}}</p>
+                <p>Stock: {{this.stock}}</p>
+                <p>Categoria: {{this.category}}</p>
+                <div class="button-container">
+                    <form action="/products/{{this._id}}" method="GET">
+                        <button type="submit" class="btn-details">Ver Detalle</button>
+                    </form>
+                    <button id="add-to-cart-btn" class="btn-add-to-cart" onclick="addToCart('{{this._id}}', this.dataset.userId)">Agregar a Carrito</button>
+                </div>
+                
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+<div>
+    {{#if hasPreviousPage}}
+        <p><a href="/products?page={{previousPage}}&limit={{limit}}&query={{query}}&sort={{sort}}">Anterior</a></p>
+    {{/if}}
+
+    <p>Page {{currentPage}} of {{totalPages}}</p>
+
+    {{#if hasNextPage}}
+        <p><a href="/products?page={{nextPage}}&limit={{limit}}&query={{query}}&sort={{sort}}">Siguiente</a></p>
+    {{/if}}
+</div>
+<script src="/js/productsScript.js"></script>
+</body>
+</html>
